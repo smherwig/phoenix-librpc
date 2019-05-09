@@ -1,26 +1,31 @@
 INCLUDES= -I$(HOME)/include
 STATIC_LIBS= $(addprefix $(HOME)/lib/, librpc.a librho.a)
 
-CPPFLAGS= $(INCLUDES) -DRHO_DEBUG -DRHO_TRACE
-#CPPFLAGS= $(INCLUDES)
+#CPPFLAGS= $(INCLUDES) -DRHO_DEBUG -DRHO_TRACE
+CPPFLAGS= $(INCLUDES)
 CFLAGS= -Wall -Werror -Wextra
 LDFLAGS= $(STATIC_LIBS) -lssl -lcrypto -lpthread
 
-OBJS= benchserver.o benchclient.o
+OBJS= rpcbenchserver.o rpcbenchclient.o memcpy_bench.o
 
-all: benchserver benchclient
+all: rpcbenchserver rpcbenchclient memcpy_bench
 
-benchserver: benchserver.o
+rpcbenchserver: rpcbenchserver.o
 	$(CC) -o $@ $^ $(LDFLAGS)
 
-benchclient: benchclient.o
+rpcbenchclient: rpcbenchclient.o
 	$(CC) -o $@ $^ $(LDFLAGS)
 
-benchserver.o: benchserver.c
+memcpy_bench: memcpy_bench.o
+	$(CC) -o $@ $^ $(LDFLAGS)
 
-benchclient.o: benchclient.c
+rpcbenchserver.o: rpcbenchserver.c
+
+rpcbenchclient.o: rpcbenchclient.c
+
+memcpy_bench.o: memcpy_bench.c
 
 clean:
-	rm -f benchserver benchclient $(OBJS)
+	rm -f rpcbenchserver rpcbenchclient memcpy_bench $(OBJS)
 
 .PHONY: all clean
