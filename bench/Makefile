@@ -8,7 +8,10 @@ LDFLAGS= $(STATIC_LIBS) -lssl -lcrypto -lpthread
 
 OBJS= rpcbenchserver.o rpcbenchclient.o memcpy_bench.o
 
-all: rpcbenchserver rpcbenchclient memcpy_bench
+all: rpccombinedbench rpcbenchserver rpcbenchclient memcpy_bench
+
+rpccombinedbench: rpccombinedbench.o
+	$(CC) -o $@ $^ $(LDFLAGS)
 
 rpcbenchserver: rpcbenchserver.o
 	$(CC) -o $@ $^ $(LDFLAGS)
@@ -19,6 +22,8 @@ rpcbenchclient: rpcbenchclient.o
 memcpy_bench: memcpy_bench.o
 	$(CC) -o $@ $^ $(LDFLAGS)
 
+rpccombinedbench.o: rpccombinedbench.c
+
 rpcbenchserver.o: rpcbenchserver.c
 
 rpcbenchclient.o: rpcbenchclient.c
@@ -26,6 +31,6 @@ rpcbenchclient.o: rpcbenchclient.c
 memcpy_bench.o: memcpy_bench.c
 
 clean:
-	rm -f rpcbenchserver rpcbenchclient memcpy_bench $(OBJS)
+	rm -f rpccombinedbench rpcbenchserver rpcbenchclient memcpy_bench $(OBJS)
 
 .PHONY: all clean
