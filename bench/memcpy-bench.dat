@@ -1,0 +1,19 @@
+#   Times are in seconds    (wall-clock time)
+#   Mean is computed over 100,000 runs.
+#
+#   ./memcpy_bench -b 10240 100000
+#
+# The cache-flush time is average time it takes to call cfflush on each
+# 64-byte step of the buf.  memcpy is the mean time of calling memcpy.
+# The problem with the memcpy test is that the reads and writes might
+# be entirely within the cache.  Thus, the "memcpy" is like the best
+# case time.  The cache-flush is, in a sense, the worst case time, as
+# it tries to measure the case where the dst buffer is not in the cache.
+#
+#
+#
+#           cache-flush     memcpy          cache-flush     memcpy
+# bufsize   non-sgx         non-sgx         sgx             sgx 
+1k          0.000000965     0.000000012     0.000001055     0.000000038
+10k         0.000010103     0.000000156     0.000011396     0.000000300
+100k        0.000109618     0.000002382     0.000120429     0.000003652
