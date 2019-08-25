@@ -143,6 +143,11 @@ done:
     "       The root certificate path.  If specified, the RPCs\n" \
     "       use server-authenticated TLS.\n" \
     "\n" \
+    "   -s SECONDS\n" \
+    "       Sleep for SECONDS before starting the test.\n" \
+    "       This can be useful if using external profile tools\n" \
+    "       that need the client's PID or TID.\n" \
+    "\n" \
     "   -u UPLOAD_SIZE\n" \
     "       If testing UPLOADS, the size of the request body.\n" \
     "       Must be <= 10MB \n" \
@@ -169,9 +174,10 @@ main(int argc, char *argv[])
     struct rpc_agent *agent = NULL;
     const char *root_crt = NULL;
     double mean = 0;
+    uint32_t sleep_secs = 0;
 
 
-    while ((c = getopt(argc, argv, "c:hr:u:")) != -1) {
+    while ((c = getopt(argc, argv, "c:hr:s:u:")) != -1) {
         switch (c) {
         case 'c':
             if (rho_str_equal_ci(optarg, "UPLOAD")) {
@@ -188,6 +194,9 @@ main(int argc, char *argv[])
             break;
         case 'r':
             root_crt = optarg;
+            break;
+        case 's':
+            sleep_secs = rho_str_touint32(optarg, 10);
             break;
         case 'u':
             bench_upload_size = rho_str_touint32(optarg, 10);
@@ -213,6 +222,11 @@ main(int argc, char *argv[])
     bench_payload = rhoL_zalloc(BENCH_MAX_PAYLOAD_SIZE);
 
     agent = do_connect(argv[0], root_crt);
+
+    if (sleep_secs > 0)
+        sleep(sleep_secs);
+
+    printf("starting test\n");
 
     if (bench_op_code == BENCH_OP_UPLOAD) {
         rho_debug("doing %d upload requests", bench_num_requests);
