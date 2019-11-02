@@ -69,7 +69,7 @@ arguments: the URL to connect to, and the number of requests to perform.  Both
 have additional options, such as for keying material.
 
 
-Next, create or copy over the keying material.  I will assume the keying material is from the [phoenix-nginx-eval](https://github.com/smherwig/phoenix/nginx-eval), but OpenSSL may also be used to create a root certificate (root.crt) and a leaf certificate and key (proc.crt, proc.key).
+Next, create or copy over the keying material.  I will assume the keying material is from the [phoenix-nginx-eval](https://github.com/smherwig/phoenix-nginx-eval), but OpenSSL may also be used to create a root certificate (root.crt) and a leaf certificate and key (proc.crt, proc.key).
 
 ```
 cd ~
@@ -79,10 +79,12 @@ cp ~/nginx-eval/config/proc.crt ~/src/librpc/bench/
 cp ~/nginx-eval/config/proc.key ~/src/librpc/bench/
 ```
 
+
 The SGX benchmarks require the [phoenix](https://github.com/smherwig/phoenix)
-libOS and [phoenix-makemanifest](https://github.com/smherwig/makemanifest)
+libOS and
+[phoenix-makemanifest](https://github.com/smherwig/phoenix-makemanifest)
 configuration packager. Download and setup these two projects.  The
-instructions assume that the phoenix source is located at `$HOME/src/phoenix`
+instructions here assume that the phoenix source is located at `$HOME/src/phoenix`
 and the phoenix-makemanifest project at `$HOME/src/makemanifest`.
 
 
@@ -120,6 +122,7 @@ cd ~/src/makemanifest
     ~/src/librpc/bench/rpcbenchserver.conf -t $PWD -v -o rpcbenchserver
 cd rpcbenchserver
 cp manifest.sgx rpcbenchserver.manifest.sgx
+```
 
 
 Build the manifest.sgx file for the client
