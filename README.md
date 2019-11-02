@@ -39,6 +39,9 @@ To install to a different, location, say, `/home/smherwig`, enter
 make install INSTALL_TOP=/home/smherwig
 ```
 
+The rest of this README assumes that the librpc source is located at
+`$HOME/src/librpc/`, and that librpc is installed under `$HOME`.
+
 
 Micro-benchmarks
 ================
@@ -68,8 +71,11 @@ the size of the payload to serve, in bytes.  The client also takes two
 arguments: the URL to connect to, and the number of requests to perform.  Both
 have additional options, such as for keying material.
 
-
-Next, create or copy over the keying material.  I will assume the keying material is from the [phoenix-nginx-eval](https://github.com/smherwig/phoenix-nginx-eval), but OpenSSL may also be used to create a root certificate (root.crt) and a leaf certificate and key (proc.crt, proc.key).
+Next, create or copy over the keying material.  I will assume the keying
+material is from the
+[phoenix-nginx-eval](https://github.com/smherwig/phoenix-nginx-eval), but
+OpenSSL may also be used to create a root certificate (root.crt) and a leaf
+certificate and key (proc.crt, proc.key).
 
 ```
 cd ~
@@ -91,7 +97,7 @@ and the phoenix-makemanifest project at `$HOME/src/makemanifest`.
 non-SGX
 -------
 
-In one terminal, run the server:
+In one terminal, run the server, here with a 0-byte payload:
 
 ```
 cd librpc/bench
@@ -114,7 +120,7 @@ have the directive `THREADS 1`.  To count futex calls or hardware performance
 counters, build Phoenix with `make SGX=1 DEBUG=1`.
 
 
-Build the manifest.sgx file for the server:
+Package the server to run on Phoenix:
 
 ```
 cd ~/src/makemanifest
@@ -125,7 +131,7 @@ cp manifest.sgx rpcbenchserver.manifest.sgx
 ```
 
 
-Build the manifest.sgx file for the client
+Pakcage the client to run on Phoenix:
 
 ```
 cd ~/src/makemanifest
@@ -160,4 +166,7 @@ exitless
 --------
 
 Make sure that `rpcbenchserver.conf` and `rpcbenchclient.conf` both have the
-directive `THREADS 1 exitless`.  Repeat as before for SGX.
+directive `THREADS 1 exitless`, rather than `THREADS 1`.  Repeat as before for
+SGX.
+
+
