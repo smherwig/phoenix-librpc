@@ -1,10 +1,47 @@
-# phoenix-librpc
+Overview 
+========
 
-Remote Procedure Call (RPC) library used by various kernel servers in the
-Phoenix SGX microkernel
+librpc is a remote procedure call (RPC) library used by several kernel servers
+in the Phoenix SGX microkernel.
 
 
-# Microbenchmarks
+Building and Installing
+=======================
+
+First, install [librho](https://github.com/smherwig/librho).
+Next, download and build librpc:
+
+```
+git clone https://github.com/smherwig/phoenix-librpc librpc
+cd librpc
+make
+```
+
+librpc's Makefile assumes that librho is installed in the user's home
+directory; if this is not the case, edit the `INCLUDES` variable at the top of
+the Makefile.
+
+The build creates two libraries: `librpc.a`, and a position-independent
+version, `librpc-pic.a`; the former is for statically linking into an
+executable; the latter for statically linking into a shared object.
+
+
+To install, enter:
+
+```
+make install
+```
+
+By default, the librpc libraries and header (`rpc.h`) are installed to `/usr/local/`.
+To install to a different, location, say, `/home/smherwig`, enter
+
+```
+make install INSTALL_TOP=/home/smherwig
+```
+
+
+Micro-benchmarks
+================
 
 Vary the payload from 0 bytes, 1024 (1 KiB), 10240 (10 KiB), 102400(100 KiB), 1048567
 (1 MiB).
