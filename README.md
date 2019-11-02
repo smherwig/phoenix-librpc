@@ -50,9 +50,9 @@ and compute the mean time for the RPC to complete.  We vary the payload size
 form 0-bytes to 1 MiB.
 
 We perform this experiment in three environments:
-# **non-SGX**: client and server execute outside of an SGX enclave
-# **SGX**: client and server execute within an SGX enclave
-# **exitless**: client and server execute within an SGX enclave and use Phoenix's exitless system calls. 
+1. **non-SGX**: client and server execute outside of an SGX enclave
+2. **SGX**: client and server execute within an SGX enclave
+3. **exitless**: client and server execute within an SGX enclave and use Phoenix's exitless system calls. 
 
 
 First, build the benchmarking tools:
