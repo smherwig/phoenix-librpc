@@ -2,7 +2,7 @@ Overview
 ========
 
 librpc is a remote procedure call (RPC) library used by several kernel servers
-in the Phoenix SGX microkernel.
+in the [Phoenix](https://github.com/smherwig/phoenix) SGX microkernel.
 
 
 Building and Installing
