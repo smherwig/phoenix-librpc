@@ -46,11 +46,9 @@ The rest of this README assumes that the librpc source is located at
 Micro-benchmarks
 ================
 
-To understand the cost of the RPC mechanism used by the kernel servers, absent
-from any additional server or client-specific processing, we design an
-experiment where a client issues an RPC to download a payload 100,000 times,
-and compute the mean time for the RPC to complete.  We vary the payload size
-form 0-bytes to 1 MiB.
+To understand the cost of the RPC mechanism, we design an experiment where a
+client issues an RPC to download a payload 100,000 times, and compute the mean
+time for the RPC to complete.  We vary the payload size form 0-bytes to 1 MiB.
 
 We perform this experiment in three environments:
 1. **non-SGX**: client and server execute outside of an SGX enclave
@@ -61,11 +59,11 @@ We perform this experiment in three environments:
 First, build the benchmarking tools:
 
 ```
-cd librpc/bench
+cd ~/src/librpc/bench
 make
 ```
 
-The server is `rcpbenchserver`, and the client `rpcbenchclient`.
+The server is `rpcbenchserver`, and the client `rpcbenchclient`.
 The server takes two arguments: the URL on which to listen for connections, and
 the size of the payload to serve, in bytes.  The client also takes two
 arguments: the URL to connect to, and the number of requests to perform.  Both
@@ -74,8 +72,8 @@ have additional options, such as for keying material.
 Next, create or copy over the keying material.  I will assume the keying
 material is from the
 [phoenix-nginx-eval](https://github.com/smherwig/phoenix-nginx-eval), but
-OpenSSL may also be used to create a root certificate (root.crt) and a leaf
-certificate and key (proc.crt, proc.key).
+OpenSSL may also be used to create a root certificate (`root.crt`) and a leaf
+certificate and key (`proc.crt`, `proc.key`).
 
 ```
 cd ~
@@ -116,8 +114,7 @@ SGX
 ---
 
 Make sure that `bench/rpcbenchserver.conf` and `bench/rpcbenchclient.conf` both
-have the directive `THREADS 1`.  To count futex calls or hardware performance
-counters, build Phoenix with `make SGX=1 DEBUG=1`.
+have the directive `THREADS 1`.  
 
 
 Package the server to run on Phoenix:
@@ -131,7 +128,7 @@ cp manifest.sgx rpcbenchserver.manifest.sgx
 ```
 
 
-Pakcage the client to run on Phoenix:
+Package the client to run on Phoenix:
 
 ```
 cd ~/src/makemanifest
@@ -152,14 +149,15 @@ In another terminal, run the client:
 
 ```
 cd ~/src/makemanifest/rpcbenchclient
-./rpcbenchclient -r /etc/root.crt tcp://127.0.0.1:9000 100000
+./rpcbenchclient.manifest.sgx -r /etc/root.crt tcp://127.0.0.1:9000 100000
 ```
 
 
-```
-cd ~/phoenix/perftools
-pax aux | grep rpcbenchclient | awk '{print $1}' | xargs ./myperfpid.sh
-```
+To count futex calls or hardware performance
+counters, build Phoenix with `make SGX=1 DEBUG=1`, and repeat the packaging
+steps.  Futexes can be counted by redirecting the server and client's stderr
+and counting the number of lines containing the string `futex called`.
+Hardware counters can be counted as with the `perf-stat(1)` tool.
 
 
 exitless
