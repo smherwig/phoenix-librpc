@@ -8,18 +8,18 @@ in the [Phoenix](https://github.com/smherwig/phoenix) SGX microkernel.
 Building and Installing
 =======================
 
-First, install [librho](https://github.com/smherwig/librho).
-Next, download and build librpc:
+librpc depends on [librho](https://github.com/smherwig/librho).
+librpc's Makefile assumes that librho is installed in the user's home
+directory; if this is not the case, edit the `INCLUDES` variable at the top of
+the Makefile.
+
+To download and build the librpc, enter:
 
 ```
 git clone https://github.com/smherwig/phoenix-librpc librpc
 cd librpc
 make
 ```
-
-librpc's Makefile assumes that librho is installed in the user's home
-directory; if this is not the case, edit the `INCLUDES` variable at the top of
-the Makefile.
 
 The build creates two libraries: `librpc.a`, and a position-independent
 version, `librpc-pic.a`; the former is for statically linking into an
@@ -85,7 +85,7 @@ cp ~/nginx-eval/config/proc.key ~/src/librpc/bench/
 
 
 The SGX benchmarks require the [phoenix](https://github.com/smherwig/phoenix)
-libOS and
+libOS and the
 [phoenix-makemanifest](https://github.com/smherwig/phoenix-makemanifest)
 configuration packager. Download and setup these two projects.  The
 instructions here assume that the phoenix source is located at `$HOME/src/phoenix`
@@ -123,8 +123,6 @@ Package the server to run on Phoenix:
 cd ~/src/makemanifest
 ./make_sgx.py -g ~/src/phoenix -k enclave-key.pem -p \
     ~/src/librpc/bench/rpcbenchserver.conf -t $PWD -v -o rpcbenchserver
-cd rpcbenchserver
-cp manifest.sgx rpcbenchserver.manifest.sgx
 ```
 
 
@@ -134,8 +132,6 @@ Package the client to run on Phoenix:
 cd ~/src/makemanifest
 ./make_sgx.py -g ~/src/phoenix -k enclave-key.pem -p \
     ~/src/librpc/bench/rpcbenchclient.conf -t $PWD -v -o rpcbenchclient
-cd rpcbenchclient
-cp manifest.sgx rpcbenchclient.manifest.sgx
 ```
 
 In one terminal, run the server:
