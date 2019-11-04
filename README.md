@@ -5,8 +5,8 @@ librpc is a remote procedure call (RPC) library used by several kernel servers
 in the [Phoenix](https://github.com/smherwig/phoenix) SGX microkernel.
 
 
-Building and Installing
-=======================
+<a name="building"/>Building and Installing
+===========================================
 
 librpc depends on [librho](https://github.com/smherwig/librho).
 librpc's Makefile assumes that librho is installed in the user's home
@@ -43,8 +43,8 @@ The rest of this README assumes that the librpc source is located at
 `$HOME/src/librpc/`, and that librpc is installed under `$HOME`.
 
 
-Micro-benchmarks
-================
+<a name="micro-benchmarks"/> Micro-benchmarks
+=============================================
 
 To understand the cost of the RPC mechanism, we design an experiment where a
 client issues an RPC to download a payload 100,000 times, and compute the mean
