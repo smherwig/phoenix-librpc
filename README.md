@@ -16,6 +16,7 @@ the Makefile.
 To download and build the librpc, enter:
 
 ```
+cd ~/src
 git clone https://github.com/smherwig/phoenix-librpc librpc
 cd librpc
 make
@@ -33,10 +34,10 @@ make install
 ```
 
 By default, the librpc libraries and header (`rpc.h`) are installed to `/usr/local/`.
-To install to a different, location, say, `/home/smherwig`, enter
+To install to a different location, such as the user's home, enter:
 
 ```
-make install INSTALL_TOP=/home/smherwig
+make install INSTALL_TOP=$HOME
 ```
 
 The rest of this README assumes that the librpc source is located at
