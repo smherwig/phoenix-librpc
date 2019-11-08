@@ -12,7 +12,7 @@ librpc depends on [librho](https://github.com/smherwig/librho).  librpc's
 Makefile assumes that librho is installed in the user's home directory; if this
 is not the case, edit the `INCLUDES` variable at the top of the Makefile.
 
-To download and build the librpc, enter:
+To download and build librpc, enter:
 
 ```
 cd ~/src
@@ -53,8 +53,8 @@ and located at `$HOME/src/phoenix` and that
 `~/src/makemanifest`:
 
 To understand the cost of the RPC mechanism, we design an experiment where a
-client issues an RPC to download a payload `N` times, and compute the mean
-time for the RPC to complete.  We vary the payload size from 0-bytes to 1 MiB.
+client issues RPCs to download a fixed-sized payload repeatedly, and compute
+the mean time for the RPC to complete.
 
 We perform this experiment in three environments:
 1. **non-SGX**: client and server execute outside of an SGX enclave
@@ -96,7 +96,7 @@ cd ~/src/librpc/bench
 ./rpcbenchserver -Z root.crt proc.crt proc.key tcp://127.0.0.1:9000 0
 ```
 
-In another terminal, run the client, who will issue 100,000 RPCs to the server:
+In another terminal, run the client, which will issue 100,000 RPCs to the server:
 
 ```
 ./rpcbenchclient -r root.crt tcp://127.0.0.1:9000 100000
@@ -106,7 +106,7 @@ In another terminal, run the client, who will issue 100,000 RPCs to the server:
 SGX
 ---
 
-Make sure that `bench/rpcbenchserver.conf` and `bench/rpcbenchclient.conf` both
+Ensure that `bench/rpcbenchserver.conf` and `bench/rpcbenchclient.conf` both
 have the directive `THREADS 1`.  
 
 
@@ -152,7 +152,7 @@ the `perf-stat(1)` tool.
 exitless
 --------
 
-Make sure that `rpcbenchserver.conf` and `rpcbenchclient.conf` both have the
+Ensure that `rpcbenchserver.conf` and `rpcbenchclient.conf` both have the
 directive `THREADS 1 exitless`, rather than `THREADS 1`.  Repeat as before for
 SGX.
 
